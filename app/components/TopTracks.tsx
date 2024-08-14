@@ -1,6 +1,8 @@
+'use client'
 import { Url } from "next/dist/shared/lib/router/router";
 import Image from "next/image";
 import Link from "next/link";
+import { useEffect, useState } from "react";
 
 
 interface Track {
@@ -21,16 +23,24 @@ interface Track {
     id: string,
   }
 
-const TopTracks = async () => {
+const TopTracks = () => {
 
-    const res = await fetch(`${process.env.REDIRECT_URI}/api/tracks`)
-    const data: Track[]  = await res.json()
+    const [tracks, setTracks] = useState<[Track]>()
 
-    // console.log(data)
+    useEffect(()=>{
+      fetch('/api/tracks')
+      .then(res => res.json()
+      .then(data => {
+        // console.log(data)
+        setTracks(data)
+      }))
+    }, [])
+
+    // console.log(tracks)
   
     return <>
     <ul>
-      {data.map((track: Track) => (
+      {tracks?.map((track: Track) => (
           <Link href={track.album.external_urls.spotify} key={track.id}>
             <li>{track.name}</li>
             <Image priority width={360} height={360} src={track.album.images[0].url} alt={track.name} />
