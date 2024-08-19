@@ -1,7 +1,8 @@
 'use client'
 import { StaticImport } from "next/dist/shared/lib/get-img-props";
-import Image from "next/image";
 import { useEffect, useState } from "react";
+import BackgroundVideo from 'next-video/background-video';
+import awesomeVideo from '/videos/soho-pixie1080p.mp4';
 
 interface Artist {
     name: string,
@@ -29,7 +30,12 @@ const HeroComponent = () => {
     }))
   }, [])
 
-    return <h1>{hero?.name}</h1>;
+    return (
+      <BackgroundVideo src={awesomeVideo}>
+        <h1>{hero?.name}</h1>
+      </BackgroundVideo>
+    )
+    
 }
 
 export default HeroComponent
